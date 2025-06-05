@@ -33,6 +33,21 @@
             margin: 10px 0;
             height: 40px;
         }
+        #floatingPlayPauseBtn {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            border-radius: 50%;
+            background: #6264A7;
+            color: white;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -56,6 +71,10 @@
         frameborder="0"
         allowFullScreen="true">
     </iframe>
+
+    <button id="floatingPlayPauseBtn" onclick="toggleAutoRotate()">
+        ⏸
+    </button>
 
     <script>
         const pages = ['d9ee6576fe57c32980b5', 'dc51bb0457a5c67568c9', '0ec3263e0b1bba93c925'];
@@ -89,6 +108,7 @@
             }, intervalMs);
             isPlaying = true;
             updatePlayPauseBtn();
+            document.getElementById('floatingPlayPauseBtn').style.display = 'none';
         }
 
         function stopAutoRotate() {
@@ -96,23 +116,46 @@
             timer = null;
             isPlaying = false;
             updatePlayPauseBtn();
+            document.getElementById('floatingPlayPauseBtn').style.display = 'block';
         }
 
+        // Detectar cambios de pantalla completa
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+        document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+        function handleFullscreenChange() {
+            const floatingBtn = document.getElementById('floatingPlayPauseBtn');
+            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+                floatingBtn.style.display = 'block';
+                updateFloatingBtn();
+            } else {
+                floatingBtn.style.display = 'none';
+            }
+        }
+
+        // Sincroniza el texto del botón flotante con el estado
+        function updateFloatingBtn() {
+            const floatingBtn = document.getElementById('floatingPlayPauseBtn');
+            floatingBtn.textContent = isPlaying ? "⏸" : "▶️";
+        }
+
+        // Modifica toggleAutoRotate para actualizar ambos botones
         function toggleAutoRotate() {
             if (isPlaying) {
                 stopAutoRotate();
             } else {
                 startAutoRotate(45000);
             }
+            updateFloatingBtn();
         }
 
+        // Modifica updatePlayPauseBtn para actualizar ambos botones
         function updatePlayPauseBtn() {
             const btn = document.getElementById('playPauseBtn');
-            if (isPlaying) {
-                btn.textContent = "⏸ Pausa";
-            } else {
-                btn.textContent = "▶️ Play";
-            }
+            btn.textContent = isPlaying ? "⏸ Pausa" : "▶️ Play";
+            updateFloatingBtn();
         }
 
         // Inicia la rotación automática al cargar la página
