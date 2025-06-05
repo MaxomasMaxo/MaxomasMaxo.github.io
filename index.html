@@ -42,8 +42,8 @@
     </div>
     <div class="botonera">
         <button onclick="goToPage('Filtros')">Filtros</button>
-        <button onclick="goToPage('Resumen_Clientes')">Resumen Clientes</button>
-        <button onclick="goToPage('CU_por_hora')">CU por hora</button>
+        <button onclick="goToPage('ResumenClientes')">Resumen Clientes</button>
+        <button onclick="goToPage('CUporhora')">CU por hora</button>
         <button onclick="goFullScreen()">Pantalla completa</button>
     </div>
 
@@ -79,7 +79,7 @@
             }
         }
 
-        function startAutoRotate(intervalMs = 15000) {
+        function startAutoRotate(intervalMs = 45000) {
             if (timer) clearInterval(timer);
             timer = setInterval(() => {
                 currentPage = (currentPage + 1) % pages.length;
