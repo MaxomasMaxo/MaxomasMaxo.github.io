@@ -9,39 +9,72 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            overflow: hidden; /* Evita barras de scroll innecesarias en el cuerpo */
-            font-family: Segoe UI, wf_segoe-ui_normal, helvetica, arial, sans-serif; /* Fuente similar a Teams */
-            background-color: #f5f5f5; /* Color de fondo neutro */
+            overflow: hidden;
+            font-family: Segoe UI, wf_segoe-ui_normal, helvetica, arial, sans-serif;
+            background-color: #f5f5f5;
         }
         .powerbi-container {
             width: 100%;
-            height: 100vh; /* Ocupa toda la altura de la ventana gráfica */
-            border: none; /* Sin bordes para el iframe */
+            height: calc(100vh - 90px); /* Ajusta según el alto de tu header+botonera */
+            border: none;
+            display: block;
         }
         .header {
-            background-color: #6264A7; /* Color de acento similar a Teams */
+            background-color: #6264A7;
             color: white;
             padding: 10px 20px;
             text-align: center;
             font-size: 1.2em;
+            height: 50px;
+            box-sizing: border-box;
         }
-        /* Puedes ajustar la altura del contenedor si tienes una cabecera o pie de página */
-        /* Por ejemplo, si tienes una cabecera de 50px:
-        .powerbi-container {
-            height: calc(100vh - 50px);
+        .botonera {
+            text-align: center;
+            margin: 10px 0;
+            height: 40px;
         }
-        */
     </style>
 </head>
 <body>
 
+    <div class="header">
+        Informes Power BI - Teams
+    </div>
+    <div class="botonera">
+        <button onclick="goToPage('ReportSection')">Página 1</button>
+        <button onclick="goToPage('ReportSection2')">Página 2</button>
+        <button onclick="goToPage('ReportSection3')">Página 3</button>
+        <button onclick="goFullScreen()">Pantalla completa</button>
+    </div>
+
     <iframe
+        id="powerbiFrame"
         title="Informe Power BI Ejemplo"
         class="powerbi-container"
-        src="https://app.powerbi.com/reportEmbed?reportId=a4da20a6-062a-4a4d-8b6e-65d7e9dbf85a&autoAuth=true&ctid=012f520d-f6ca-493e-ad55-86ec0bec16c0"
+        src="https://app.powerbi.com/reportEmbed?reportId=a4da20a6-062a-4a4d-8b6e-65d7e9dbf85a&autoAuth=true&ctid=012f520d-f6ca-493e-ad55-86ec0bec16c0&pageName=ReportSection"
         frameborder="0"
         allowFullScreen="true">
     </iframe>
+
+    <script>
+        function goToPage(pageName) {
+            const baseUrl = "https://app.powerbi.com/reportEmbed?reportId=a4da20a6-062a-4a4d-8b6e-65d7e9dbf85a&autoAuth=true&ctid=012f520d-f6ca-493e-ad55-86ec0bec16c0";
+            document.getElementById('powerbiFrame').src = baseUrl + "&pageName=" + pageName;
+        }
+
+        function goFullScreen() {
+            const iframe = document.getElementById('powerbiFrame');
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.mozRequestFullScreen) { // Firefox
+                iframe.mozRequestFullScreen();
+            } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) { // IE/Edge
+                iframe.msRequestFullscreen();
+            }
+        }
+    </script>
 
 </body>
 </html>
