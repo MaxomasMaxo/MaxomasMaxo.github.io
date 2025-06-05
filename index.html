@@ -57,6 +57,10 @@
     </iframe>
 
     <script>
+        const pages = ['Filtros', 'Resumen_Clientes', 'CU_por_hora'];
+        let currentPage = 0;
+        let timer = null;
+
         function goToPage(pageName) {
             const baseUrl = "https://app.powerbi.com/reportEmbed?reportId=a7a2237a-6970-405a-9172-fbbb17df7447&autoAuth=true&ctid=012f520d-f6ca-493e-ad55-86ec0bec16c0";
             document.getElementById('powerbiFrame').src = baseUrl + "&pageName=" + pageName;
@@ -66,14 +70,31 @@
             const iframe = document.getElementById('powerbiFrame');
             if (iframe.requestFullscreen) {
                 iframe.requestFullscreen();
-            } else if (iframe.mozRequestFullScreen) { // Firefox
+            } else if (iframe.mozRequestFullScreen) {
                 iframe.mozRequestFullScreen();
-            } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari and Opera
+            } else if (iframe.webkitRequestFullscreen) {
                 iframe.webkitRequestFullscreen();
-            } else if (iframe.msRequestFullscreen) { // IE/Edge
+            } else if (iframe.msRequestFullscreen) {
                 iframe.msRequestFullscreen();
             }
         }
+
+        function startAutoRotate(intervalMs = 15000) {
+            if (timer) clearInterval(timer);
+            timer = setInterval(() => {
+                currentPage = (currentPage + 1) % pages.length;
+                goToPage(pages[currentPage]);
+            }, intervalMs);
+        }
+
+        function stopAutoRotate() {
+            if (timer) clearInterval(timer);
+        }
+
+        // Inicia la rotación automática al cargar la página
+        window.onload = function() {
+            startAutoRotate(15000); // Cambia cada 15 segundos
+        };
     </script>
 
 </body>
