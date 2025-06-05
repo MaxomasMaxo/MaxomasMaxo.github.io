@@ -42,8 +42,8 @@
     </div>
     <div class="botonera">
         <button onclick="goToPage('Filtros')">Filtros</button>
-        <button onclick="goToPage('Resumen Clientes')">Resumen Clientes</button>
-        <button onclick="goToPage('CUporhora')">CUporhora</button>
+        <button onclick="goToPage('Resumen_Clientes')">Resumen Clientes</button>
+        <button onclick="goToPage('CU_por_hora')">CU por hora</button>
         <button onclick="goFullScreen()">Pantalla completa</button>
     </div>
 
@@ -51,14 +51,14 @@
         id="powerbiFrame"
         title="Informe Power BI Ejemplo"
         class="powerbi-container"
-        src="https://app.powerbi.com/reportEmbed?reportId=a4da20a6-062a-4a4d-8b6e-65d7e9dbf85a&autoAuth=true&ctid=012f520d-f6ca-493e-ad55-86ec0bec16c0&pageName=ReportSection"
+        src="https://app.powerbi.com/reportEmbed?reportId=a7a2237a-6970-405a-9172-fbbb17df7447&autoAuth=true&ctid=012f520d-f6ca-493e-ad55-86ec0bec16c0&pageName=ReportSection"
         frameborder="0"
         allowFullScreen="true">
     </iframe>
 
     <script>
         function goToPage(pageName) {
-            const baseUrl = "https://app.powerbi.com/reportEmbed?reportId=a4da20a6-062a-4a4d-8b6e-65d7e9dbf85a&autoAuth=true&ctid=012f520d-f6ca-493e-ad55-86ec0bec16c0";
+            const baseUrl = "https://app.powerbi.com/reportEmbed?reportId=a7a2237a-6970-405a-9172-fbbb17df7447&autoAuth=true&ctid=012f520d-f6ca-493e-ad55-86ec0bec16c0";
             document.getElementById('powerbiFrame').src = baseUrl + "&pageName=" + pageName;
         }
 
